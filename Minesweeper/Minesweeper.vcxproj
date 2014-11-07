@@ -73,6 +73,8 @@
   <ItemGroup>
     <ClCompile Include="Minesweeper.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="ResetButton.cpp" />
+    <ClCompile Include="Tile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -85,6 +87,8 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="ResetButton.h" />
+    <ClInclude Include="Tile.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
