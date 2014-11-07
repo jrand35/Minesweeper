@@ -61,15 +61,17 @@ namespace Minesweeper {
 			// 
 			this->panel1->Location = System::Drawing::Point(12, 12);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(260, 238);
+			this->panel1->Size = System::Drawing::Size(600, 418);
 			this->panel1->TabIndex = 0;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 262);
+			this->ClientSize = System::Drawing::Size(624, 442);
 			this->Controls->Add(this->panel1);
+			this->MaximumSize = System::Drawing::Size(640, 480);
+			this->MinimumSize = System::Drawing::Size(640, 480);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
@@ -78,6 +80,17 @@ namespace Minesweeper {
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 Graphics^ g;
+				 Bitmap^ bmp1 = gcnew Bitmap("graphicsformine/1.png");
+				 Bitmap^ bmp2 = gcnew Bitmap("graphicsformine/2.png");
+				 Bitmap^ bmp3 = gcnew Bitmap("graphicsformine/3.png");
+				 Bitmap^ bmp4 = gcnew Bitmap("graphicsformine/4.png");
+				 Bitmap^ bmp5 = gcnew Bitmap("graphicsformine/5.png");
+				 Bitmap^ bmp6 = gcnew Bitmap("graphicsformine/6.png");
+				 Bitmap^ bmp7 = gcnew Bitmap("graphicsformine/7.png");
+				 Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
+				 Bitmap^ bmp9 = gcnew Bitmap("graphicsformine/9.png");
+				 g = this->CreateGraphics();
 	}
 	};
 }
