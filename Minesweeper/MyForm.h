@@ -89,8 +89,10 @@ namespace Minesweeper {
 				 Bitmap^ bmp6 = gcnew Bitmap("graphicsformine/6.png");
 				 Bitmap^ bmp7 = gcnew Bitmap("graphicsformine/7.png");
 				 Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
-				 Bitmap^ bmp9 = gcnew Bitmap("graphicsformine/9.png");
-				 g = this->CreateGraphics();
+				 Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
+				 Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
+				 g = panel1->CreateGraphics();
+				 g->DrawImage(bmp1, 0, 0, 37, 36);
 	}
 	};
 }
