@@ -36,6 +36,12 @@ int Tile::getAdjacentBombs() const{
 	int numBombs = 0;
 	return numBombs;
 }
+int Tile::getX() const{
+	return Tile::x;
+}
+int Tile::getY() const{
+	return Tile::y;
+}
 void Tile::setClick(bool hasBeenClicked){
 	Tile::hasBeenClicked = hasBeenClicked;
 }

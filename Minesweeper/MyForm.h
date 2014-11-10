@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Tile.h"
+
 namespace Minesweeper {
 
 	using namespace System;
@@ -8,6 +10,10 @@ namespace Minesweeper {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+
+	const int FIELD_WIDTH = 8;
+	const int FIELD_HEIGHT = 8;
+	const int SPACE = 2;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -36,11 +42,12 @@ namespace Minesweeper {
 			if (components)
 			{
 				delete components;
+				delete[] tiles;
 			}
 		}
 	private: System::Windows::Forms::Panel^  panel1;
-	private: System::Windows::Forms::PictureBox^  pictureBox2;
-	private: System::Windows::Forms::PictureBox^  pictureBox1;
+
+
 
 	protected:
 
@@ -56,6 +63,26 @@ namespace Minesweeper {
 		Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
 		Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
+		Tile* tiles;
+
+		void CreateTiles(){
+			tiles = new Tile[FIELD_WIDTH * FIELD_HEIGHT];
+			for (int i = 0; i < FIELD_WIDTH; i++){
+				for (int j = 0; j < FIELD_HEIGHT; j++){
+					tiles[(i * FIELD_WIDTH) + j].setPosition(i, j);
+					tiles[(i * FIELD_WIDTH) + j].setBomb(false);
+				}
+			}
+		}
+
+		void DrawTiles(Graphics^ g){
+			for (int i = 0; i < FIELD_WIDTH; i++){
+				for (int j = 0; j < FIELD_HEIGHT; j++){
+					Tile currentTile = tiles[(i * FIELD_WIDTH) + j];
+					g->DrawImage(bmp1, currentTile.getX() * (37 + SPACE), currentTile.getY() * (36 + SPACE), 37, 36);
+				}
+			}
+		}
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -68,66 +95,39 @@ namespace Minesweeper {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->panel1 = (gcnew System::Windows::Forms::Panel());
-			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
-			this->pictureBox2 = (gcnew System::Windows::Forms::PictureBox());
-			this->panel1->SuspendLayout();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// panel1
 			// 
-			this->panel1->Controls->Add(this->pictureBox2);
-			this->panel1->Location = System::Drawing::Point(12, 63);
+			this->panel1->Location = System::Drawing::Point(12, 12);
 			this->panel1->Name = L"panel1";
-			this->panel1->Size = System::Drawing::Size(600, 367);
+			this->panel1->Size = System::Drawing::Size(600, 418);
 			this->panel1->TabIndex = 0;
 			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
-			// 
-			// pictureBox1
-			// 
-			this->pictureBox1->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox1.Image")));
-			this->pictureBox1->Location = System::Drawing::Point(522, 30);
-			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(90, 27);
-			this->pictureBox1->TabIndex = 0;
-			this->pictureBox1->TabStop = false;
-			// 
-			// pictureBox2
-			// 
-			this->pictureBox2->Image = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"pictureBox2.Image")));
-			this->pictureBox2->Location = System::Drawing::Point(3, 3);
-			this->pictureBox2->Name = L"pictureBox2";
-			this->pictureBox2->Size = System::Drawing::Size(37, 36);
-			this->pictureBox2->TabIndex = 0;
-			this->pictureBox2->TabStop = false;
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(624, 442);
-			this->Controls->Add(this->pictureBox1);
 			this->Controls->Add(this->panel1);
 			this->MaximumSize = System::Drawing::Size(640, 480);
 			this->MinimumSize = System::Drawing::Size(640, 480);
 			this->Name = L"MyForm";
 			this->Text = L"MyForm";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
-			this->panel1->ResumeLayout(false);
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox2))->EndInit();
 			this->ResumeLayout(false);
 
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 g = panel1->CreateGraphics();
+				 CreateTiles();
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
-				 g->DrawImage(bmp2, 0, 0, 37, 36);
+				// g->DrawImage(bmp2, 0, 0, 37, 36);
+				 DrawTiles(g);
 	}
 	};
 }

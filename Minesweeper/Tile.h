@@ -20,6 +20,8 @@ public:
 	void setFlag(bool set);
 	void setPosition(int x, int y);
 	int getAdjacentBombs() const;
+	int getX() const;
+	int getY() const;
 	void setClick(bool hasBeenClicked);
 };
 
