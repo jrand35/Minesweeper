@@ -11,6 +11,8 @@ namespace Minesweeper {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	const int TILE_WIDTH = 37;
+	const int TILE_HEIGHT = 36;
 	const int FIELD_WIDTH = 8;
 	const int FIELD_HEIGHT = 8;
 	const int SPACE = 2;
@@ -79,7 +81,7 @@ namespace Minesweeper {
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
 					Tile currentTile = tiles[(i * FIELD_WIDTH) + j];
-					g->DrawImage(bmp1, currentTile.getX() * (37 + SPACE), currentTile.getY() * (36 + SPACE), 37, 36);
+					g->DrawImage(bmp1, currentTile.getX() * (TILE_WIDTH + SPACE), currentTile.getY() * (TILE_HEIGHT + SPACE), 37, 36);
 				}
 			}
 		}
