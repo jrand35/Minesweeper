@@ -42,6 +42,17 @@ namespace Minesweeper {
 	protected:
 
 	private:
+		Graphics^ g;
+		Bitmap^ bmp1 = gcnew Bitmap("graphicsformine/1.png");
+		Bitmap^ bmp2 = gcnew Bitmap("graphicsformine/2.png");
+		Bitmap^ bmp3 = gcnew Bitmap("graphicsformine/3.png");
+		Bitmap^ bmp4 = gcnew Bitmap("graphicsformine/4.png");
+		Bitmap^ bmp5 = gcnew Bitmap("graphicsformine/5.png");
+		Bitmap^ bmp6 = gcnew Bitmap("graphicsformine/6.png");
+		Bitmap^ bmp7 = gcnew Bitmap("graphicsformine/7.png");
+		Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
+		Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
+		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -63,6 +74,7 @@ namespace Minesweeper {
 			this->panel1->Name = L"panel1";
 			this->panel1->Size = System::Drawing::Size(600, 418);
 			this->panel1->TabIndex = 0;
+			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
 			// 
 			// MyForm
 			// 
@@ -80,19 +92,10 @@ namespace Minesweeper {
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 Graphics^ g;
-				 Bitmap^ bmp1 = gcnew Bitmap("graphicsformine/1.png");
-				 Bitmap^ bmp2 = gcnew Bitmap("graphicsformine/2.png");
-				 Bitmap^ bmp3 = gcnew Bitmap("graphicsformine/3.png");
-				 Bitmap^ bmp4 = gcnew Bitmap("graphicsformine/4.png");
-				 Bitmap^ bmp5 = gcnew Bitmap("graphicsformine/5.png");
-				 Bitmap^ bmp6 = gcnew Bitmap("graphicsformine/6.png");
-				 Bitmap^ bmp7 = gcnew Bitmap("graphicsformine/7.png");
-				 Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
-				 Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
-				 Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 				 g = panel1->CreateGraphics();
-				 g->DrawImage(bmp1, 0, 0, 37, 36);
+	}
+	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
+				 g->DrawImage(bmp2, 0, 0, 37, 36);
 	}
 	};
 }
