@@ -8,9 +8,15 @@ class ResetButton{
 private:
 	int x;
 	int y;
+	bool isClicked;
 
 public:
 	ResetButton();
+	ResetButton(int x, int y);
+	int getX() const;
+	int getY() const;
+	bool getClicked() const;
+	void setClicked(bool isClicked);
 };
 
 #endif
