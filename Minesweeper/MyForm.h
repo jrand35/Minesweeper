@@ -26,6 +26,7 @@ namespace Minesweeper {
 	private:
 		int panelWidth;
 		int panelHeight;
+		bool mouseDown;
 
 	public:
 		MyForm(void)
@@ -149,6 +150,7 @@ namespace Minesweeper {
 				 g = panel1->CreateGraphics();
 				 panelWidth = (int)(this->panel1->Width);
 				 panelHeight = (int)(this->panel1->Height);
+				 mouseDown = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), 100);
 	}
@@ -158,6 +160,7 @@ namespace Minesweeper {
 				 DrawResetButton();
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+				 mouseDown = true;
 				 int mouseX = e->X;
 				 int mouseY = e->Y;
 				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
@@ -166,6 +169,7 @@ namespace Minesweeper {
 				 }
 	}
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 mouseDown = false;
 			 if (myResetButton->getClicked()){
 				 myResetButton->setClicked(false);
 				 panel1->Refresh();
@@ -174,12 +178,12 @@ private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::F
 private: System::Void panel1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 int mouseX = e->X;
 			 int mouseY = e->Y;
-			 if (myResetButton->getClicked()){
-				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
+			 if (mouseDown){
+				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height) && !myResetButton->getClicked()){
 					 myResetButton->setClicked(true);
 					 panel1->Refresh();
 				 }
-				 else{
+				 else if (!myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height) && myResetButton->getClicked()){
 					 myResetButton->setClicked(false);
 					 panel1->Refresh();
 				 }
