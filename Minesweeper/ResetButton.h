@@ -3,6 +3,7 @@
 
 #ifndef RESETBUTTON_H
 #define RESETBUTTON_H
+using namespace System::Drawing;
 
 class ResetButton{
 private:
@@ -17,6 +18,7 @@ public:
 	int getY() const;
 	bool getClicked() const;
 	bool getMouseHovering(int mouseX, int mouseY, int bitmapWidth, int bitmapHeight) const;
+	bool getMouseHovering(int mouseX, int mouseY, Bitmap^ bitmap) const;
 	void setClicked(bool isClicked);
 };
 

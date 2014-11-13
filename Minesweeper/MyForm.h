@@ -179,11 +179,11 @@ private: System::Void panel1_MouseMove(System::Object^  sender, System::Windows:
 			 int mouseX = e->X;
 			 int mouseY = e->Y;
 			 if (mouseDown){
-				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height) && !myResetButton->getClicked()){
+				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton) && !myResetButton->getClicked()){
 					 myResetButton->setClicked(true);
 					 panel1->Refresh();
 				 }
-				 else if (!myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height) && myResetButton->getClicked()){
+				 else if (!myResetButton->getMouseHovering(mouseX, mouseY, resetButton) && myResetButton->getClicked()){
 					 myResetButton->setClicked(false);
 					 panel1->Refresh();
 				 }
