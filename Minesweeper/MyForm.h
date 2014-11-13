@@ -155,12 +155,12 @@ namespace Minesweeper {
 				 DrawResetButton();
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-				 this->Refresh();
 				 myResetButton->setClicked(true);
+				 this->Refresh();
 	}
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 this->Refresh();
 			 myResetButton->setClicked(false);
+			 this->Refresh();
 }
 };
 }
