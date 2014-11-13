@@ -140,7 +140,7 @@ namespace Minesweeper {
 			this->MaximumSize = System::Drawing::Size(640, 640);
 			this->MinimumSize = System::Drawing::Size(640, 640);
 			this->Name = L"MyForm";
-			this->Text = L"MyForm";
+			this->Text = L"Minesweeper";
 			this->Load += gcnew System::EventHandler(this, &MyForm::MyForm_Load);
 			this->ResumeLayout(false);
 
