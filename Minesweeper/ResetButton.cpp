@@ -26,6 +26,11 @@ bool ResetButton::getClicked() const{
 	return isClicked;
 }
 
+bool ResetButton::getMouseHovering(int mouseX, int mouseY, int bitmapWidth, int bitmapHeight) const{
+	return (mouseX >= getX() && mouseX <= getX() + bitmapWidth &&
+		mouseY >= getY() && mouseY <= getY() + bitmapHeight);
+}
+
 void ResetButton::setClicked(bool isClicked){
 	ResetButton::isClicked = isClicked;
 }

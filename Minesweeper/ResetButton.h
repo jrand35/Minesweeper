@@ -16,6 +16,7 @@ public:
 	int getX() const;
 	int getY() const;
 	bool getClicked() const;
+	bool getMouseHovering(int mouseX, int mouseY, int bitmapWidth, int bitmapHeight) const;
 	void setClicked(bool isClicked);
 };
 

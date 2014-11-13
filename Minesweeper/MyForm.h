@@ -14,8 +14,8 @@ namespace Minesweeper {
 
 	const int TILE_WIDTH = 37;
 	const int TILE_HEIGHT = 36;
-	const int FIELD_WIDTH = 8;
-	const int FIELD_HEIGHT = 8;
+	const int FIELD_WIDTH = 15;
+	const int FIELD_HEIGHT = 15;
 	const int SPACE = 2;
 
 	/// <summary>
@@ -85,10 +85,12 @@ namespace Minesweeper {
 		}
 
 		void DrawTiles(){
+			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
+			int startX = (panelWidth / 2) - (totalWidth / 2);
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
 					Tile currentTile = tiles[(i * FIELD_WIDTH) + j];
-					g->DrawImage(bmp0, currentTile.getX() * (TILE_WIDTH + SPACE), currentTile.getY() * (TILE_HEIGHT + SPACE), 37, 36);
+					g->DrawImage(bmp0, (currentTile.getX() * (TILE_WIDTH + SPACE)) + startX, currentTile.getY() * (TILE_HEIGHT + SPACE), 37, 36);
 				}
 			}
 		}
@@ -124,6 +126,7 @@ namespace Minesweeper {
 			this->panel1->TabIndex = 0;
 			this->panel1->Paint += gcnew System::Windows::Forms::PaintEventHandler(this, &MyForm::panel1_Paint);
 			this->panel1->MouseDown += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseDown);
+			this->panel1->MouseMove += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseMove);
 			this->panel1->MouseUp += gcnew System::Windows::Forms::MouseEventHandler(this, &MyForm::panel1_MouseUp);
 			// 
 			// MyForm
@@ -155,12 +158,32 @@ namespace Minesweeper {
 				 DrawResetButton();
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-				 myResetButton->setClicked(true);
-				 this->Refresh();
+				 int mouseX = e->X;
+				 int mouseY = e->Y;
+				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
+					 myResetButton->setClicked(true);
+					 panel1->Refresh();
+				 }
 	}
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
-			 myResetButton->setClicked(false);
-			 this->Refresh();
+			 if (myResetButton->getClicked()){
+				 myResetButton->setClicked(false);
+				 panel1->Refresh();
+			 }
+}
+private: System::Void panel1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 int mouseX = e->X;
+			 int mouseY = e->Y;
+			 if (myResetButton->getClicked()){
+				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
+					 myResetButton->setClicked(true);
+					 panel1->Refresh();
+				 }
+				 else{
+					 myResetButton->setClicked(false);
+					 panel1->Refresh();
+				 }
+			 }
 }
 };
 }
