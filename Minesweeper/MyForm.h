@@ -17,6 +17,7 @@ namespace Minesweeper {
 	const int FIELD_WIDTH = 15;
 	const int FIELD_HEIGHT = 15;
 	const int SPACE = 2;
+	const int TOTAL_BOMBS = 75;
 
 	/// <summary>
 	/// Summary for MyForm
