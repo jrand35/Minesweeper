@@ -62,6 +62,8 @@ namespace Minesweeper {
 
 	private:
 		Graphics^ g;
+		Graphics^ gbmp;
+		Bitmap^ view;
 		Bitmap^ bmp0 = gcnew Bitmap("graphicsformine/notclicked.png");
 		Bitmap^ bmp1 = gcnew Bitmap("graphicsformine/1.png");
 		Bitmap^ bmp2 = gcnew Bitmap("graphicsformine/2.png");
@@ -148,9 +150,11 @@ namespace Minesweeper {
 		}
 #pragma endregion
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 g = panel1->CreateGraphics();
 				 panelWidth = (int)(this->panel1->Width);
 				 panelHeight = (int)(this->panel1->Height);
+				 g = panel1->CreateGraphics();
+				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
+				 gbmp = Graphics::FromImage(view);
 				 mouseDown = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), 100);
