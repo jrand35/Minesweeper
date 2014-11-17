@@ -67,7 +67,8 @@ namespace Minesweeper {
 		Graphics^ g;
 		Graphics^ gbmp;
 		Bitmap^ view;
-		Bitmap^ bmp0 = gcnew Bitmap("graphicsformine/notclicked.png");
+		Bitmap^ bmpTile = gcnew Bitmap("graphicsformine/notclicked.png");
+		Bitmap^ bmp0 = gcnew Bitmap("graphicsformine/clickedblank.png");
 		Bitmap^ bmp1 = gcnew Bitmap("graphicsformine/1.png");
 		Bitmap^ bmp2 = gcnew Bitmap("graphicsformine/2.png");
 		Bitmap^ bmp3 = gcnew Bitmap("graphicsformine/3.png");
@@ -89,10 +90,6 @@ namespace Minesweeper {
 					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
 					currentTile->setPosition(i, j);
 					currentTile->setBomb(false);
-					if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS){
-						currentTile->setBomb(true);
-						numBombs++;
-					}
 				}
 			}
 			while (numBombs < TOTAL_BOMBS){
@@ -114,9 +111,114 @@ namespace Minesweeper {
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
 					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
-					currentTile->drawTile(g, bmp0, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
+					Bitmap^ tileBitmap = bmp0;
+
+					int numTiles = getNumTiles(*currentTile);
+					switch (numTiles){
+					case 0:
+						tileBitmap = bmp0;
+						break;
+
+					case 1:
+						tileBitmap = bmp1;
+						break;
+
+					case 2:
+						tileBitmap = bmp2;
+						break;
+
+					case 3:
+						tileBitmap = bmp3;
+						break;
+
+					case 4:
+						tileBitmap = bmp4;
+						break;
+
+					case 5:
+						tileBitmap = bmp5;
+						break;
+
+					case 6:
+						tileBitmap = bmp6;
+						break;
+
+					case 7:
+						tileBitmap = bmp7;
+						break;
+
+					case 8:
+						tileBitmap = bmp8;
+						break;
+
+					default:
+						tileBitmap = bmp0;
+						break;
+					}
+
+					currentTile->drawTile(g, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
 				}
 			}
+		}
+
+		int getNumTiles(Tile &base){
+			int numBombs = 0;
+			Tile *checkTile = &base - FIELD_WIDTH - 1;
+			if (checkTile != NULL){	//Top-left of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base - FIELD_WIDTH;
+			if (checkTile != NULL){	//Top of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base - FIELD_WIDTH + 1;
+			if (checkTile != NULL){	//Top-right of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base - 1;
+			if (checkTile != NULL){	//Left of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base + 1;
+			if (checkTile != NULL){	//Right of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base + FIELD_WIDTH - 1;
+			if (checkTile != NULL){	//Bottom-left of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base + FIELD_WIDTH;
+			if (checkTile != NULL){	//Bottom of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+
+			checkTile = &base + FIELD_WIDTH + 1;
+			if (checkTile != NULL){	//Bottom-right of base
+				if (checkTile->getBomb()){
+					numBombs++;
+				}
+			}
+			return numBombs;
 		}
 
 		void DrawResetButton(){
