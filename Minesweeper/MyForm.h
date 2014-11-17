@@ -2,6 +2,8 @@
 
 #include "Tile.h"
 #include "ResetButton.h"
+#include <random>
+#include <ctime>
 
 namespace Minesweeper {
 
@@ -27,6 +29,7 @@ namespace Minesweeper {
 	private:
 		int panelWidth;
 		int panelHeight;
+		int numBombs;
 		bool mouseDown;
 
 	public:
@@ -73,6 +76,7 @@ namespace Minesweeper {
 		Bitmap^ bmp6 = gcnew Bitmap("graphicsformine/6.png");
 		Bitmap^ bmp7 = gcnew Bitmap("graphicsformine/7.png");
 		Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
+		Bitmap^ bomb = gcnew Bitmap("graphicsformine/bomb.png");
 		Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
@@ -82,8 +86,24 @@ namespace Minesweeper {
 			tiles = new Tile[FIELD_WIDTH * FIELD_HEIGHT];
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
-					tiles[(i * FIELD_WIDTH) + j].setPosition(i, j);
-					tiles[(i * FIELD_WIDTH) + j].setBomb(false);
+					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
+					currentTile->setPosition(i, j);
+					currentTile->setBomb(false);
+					if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS){
+						currentTile->setBomb(true);
+						numBombs++;
+					}
+				}
+			}
+			while (numBombs < TOTAL_BOMBS){
+				for (int i = 0; i < FIELD_WIDTH; i++){
+					for (int j = 0; j < FIELD_HEIGHT; j++){
+						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
+						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getBomb()){
+							currentTile->setBomb(true);
+							numBombs++;
+						}
+					}
 				}
 			}
 		}
@@ -93,8 +113,8 @@ namespace Minesweeper {
 			int startX = (panelWidth / 2) - (totalWidth / 2);
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
-					Tile currentTile = tiles[(i * FIELD_WIDTH) + j];
-					g->DrawImage(bmp0, (currentTile.getX() * (TILE_WIDTH + SPACE)) + startX, currentTile.getY() * (TILE_HEIGHT + SPACE), 37, 36);
+					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
+					currentTile->drawTile(g, bmp0, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
 				}
 			}
 		}
@@ -152,6 +172,8 @@ namespace Minesweeper {
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 panelWidth = (int)(this->panel1->Width);
 				 panelHeight = (int)(this->panel1->Height);
+				 numBombs = 0;
+				 srand(time(0));
 				 g = panel1->CreateGraphics();
 				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
 				 gbmp = Graphics::FromImage(view);
