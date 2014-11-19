@@ -84,20 +84,45 @@ namespace Minesweeper {
 		ResetButton* myResetButton;
 
 		void CreateTiles(){
+			//i = row, j = column
 			tiles = new Tile[FIELD_WIDTH * FIELD_HEIGHT];
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
 					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
-					currentTile->setPosition(i, j);
-					currentTile->setBomb(false);
+					currentTile->setPosition(j, i);
+					currentTile->setMine(false);
+
+					//Set nodes of tiles
+					if (j > 0){	//If not at left side
+						currentTile->leftTile = (currentTile - 1);	//Set node to left tile
+						if (i > 0){	//If not at top side
+							currentTile->aboveLeftTile = (currentTile - FIELD_WIDTH - 1);	//Set node to upper-left tile
+							currentTile->aboveTile = (currentTile - FIELD_WIDTH);			//Set node to upper tile
+						}
+						if (i < FIELD_HEIGHT - 1){	//If not at bottom side
+							currentTile->belowLeftTile = (currentTile + FIELD_WIDTH - 1);	//Set node to lower-left tile
+							currentTile->belowTile = (currentTile + FIELD_WIDTH);			//Set node to lower tile
+						}
+					}
+					if (j < FIELD_WIDTH - 1){	//If not at right side
+						currentTile->rightTile = (currentTile + 1);	//Set node to right tile
+						if (i > 0){	//If not at top side
+							currentTile->aboveRightTile = (currentTile - FIELD_WIDTH + 1);	//Set node to upper-right tile
+							currentTile->aboveTile = (currentTile - FIELD_WIDTH);			//Set node to upper tile (if not already set)
+						}
+						if (i < FIELD_HEIGHT - 1){	//If not at bottom side
+							currentTile->belowRightTile = (currentTile + FIELD_WIDTH + 1);	//Set node to lower-right tile
+							currentTile->belowTile = (currentTile + FIELD_WIDTH);			//Set node to lower tile (if not already set)
+						}
+					}
 				}
 			}
 			while (numBombs < TOTAL_BOMBS){
 				for (int i = 0; i < FIELD_WIDTH; i++){
 					for (int j = 0; j < FIELD_HEIGHT; j++){
 						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
-						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getBomb()){
-							currentTile->setBomb(true);
+						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getMine()){
+							currentTile->setMine(true);
 							numBombs++;
 						}
 					}
@@ -113,7 +138,7 @@ namespace Minesweeper {
 					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
 					Bitmap^ tileBitmap = bmp0;
 
-					int numTiles = getNumTiles(*currentTile);
+					int numTiles = currentTile->getAdjacentMines();
 					switch (numTiles){
 					case 0:
 						tileBitmap = bmp0;
@@ -159,66 +184,6 @@ namespace Minesweeper {
 					currentTile->drawTile(g, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
 				}
 			}
-		}
-
-		int getNumTiles(Tile &base){
-			int numBombs = 0;
-			Tile *checkTile = &base - FIELD_WIDTH - 1;
-			if (checkTile != NULL){	//Top-left of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base - FIELD_WIDTH;
-			if (checkTile != NULL){	//Top of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base - FIELD_WIDTH + 1;
-			if (checkTile != NULL){	//Top-right of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base - 1;
-			if (checkTile != NULL){	//Left of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base + 1;
-			if (checkTile != NULL){	//Right of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base + FIELD_WIDTH - 1;
-			if (checkTile != NULL){	//Bottom-left of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base + FIELD_WIDTH;
-			if (checkTile != NULL){	//Bottom of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-
-			checkTile = &base + FIELD_WIDTH + 1;
-			if (checkTile != NULL){	//Bottom-right of base
-				if (checkTile->getBomb()){
-					numBombs++;
-				}
-			}
-			return numBombs;
 		}
 
 		void DrawResetButton(){
