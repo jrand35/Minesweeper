@@ -14,8 +14,8 @@ namespace Minesweeper {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	const int TILE_WIDTH = 37;
-	const int TILE_HEIGHT = 36;
+	const int TILE_WIDTH = 21;
+	const int TILE_HEIGHT = 20;
 	const int FIELD_WIDTH = 15;
 	const int FIELD_HEIGHT = 15;
 	const int SPACE = 2;
