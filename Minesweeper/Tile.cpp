@@ -6,26 +6,44 @@ using namespace System::Drawing;
 
 //Default constructor
 Tile::Tile(){
-	Tile::hasBomb = false;
+	Tile::hasMine = false;
 	Tile::hasFlag = false;
 	Tile::hasBeenClicked = false;
 	Tile::adjacentBombs = 0;
 	Tile::x = 0;
 	Tile::y = 0;
+
+	leftTile = NULL;
+	rightTile = NULL;
+	aboveTile = NULL;
+	belowTile = NULL;
+	aboveLeftTile = NULL;
+	aboveRightTile = NULL;
+	belowLeftTile = NULL;
+	belowRightTile = NULL;
 }
 
 //Constructor sets hasBomb, x, y
-Tile::Tile(bool hasBomb, int x, int y){
-	Tile::hasBomb = hasBomb;
+Tile::Tile(bool hasMine, int x, int y){
+	Tile::hasMine = hasMine;
 	Tile::hasFlag = false;
 	Tile::hasBeenClicked = false;
 	Tile::adjacentBombs = 0;
 	Tile::x = x;
 	Tile::y = y;
+
+	leftTile = NULL;
+	rightTile = NULL;
+	aboveTile = NULL;
+	belowTile = NULL;
+	aboveLeftTile = NULL;
+	aboveRightTile = NULL;
+	belowLeftTile = NULL;
+	belowRightTile = NULL;
 }
 
-void Tile::setBomb(bool hasBomb){
-	Tile::hasBomb = hasBomb;
+void Tile::setMine(bool hasMine){
+	Tile::hasMine = hasMine;
 }
 
 void Tile::setFlag(bool hasFlag){
@@ -37,19 +55,69 @@ void Tile::setPosition(int x, int y){
 	Tile::y = y;
 }
 
-void Tile::drawTile(Graphics^ g, Bitmap^ img, Bitmap^ bombImg, int x, int y) const{
-	g->DrawImage(img, x, y);
-	if (hasBomb){
-		g->DrawImage(bombImg, x, y);
+void Tile::drawTile(Graphics^ g, Bitmap^ img, Bitmap^ mineImg, int x, int y) const{
+	//Post: Should draw tile graphic OR mine graphic
+	if (hasMine){
+		g->DrawImage(mineImg, x, y);
+	}
+	else{
+		g->DrawImage(img, x, y);
 	}
 }
 
-bool Tile::getBomb() const{
-	return hasBomb;
+bool Tile::getMine() const{
+	return hasMine;
 }
 
-int Tile::getAdjacentBombs() const{
+int Tile::getAdjacentMines() const{
 	int numBombs = 0;
+	if (aboveLeftTile != NULL){	//Top-left of base
+		if (aboveLeftTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (aboveTile != NULL){	//Top of base
+		if (aboveTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (aboveRightTile != NULL){	//Top-right of base
+		if (aboveRightTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (leftTile != NULL){	//Left of base
+		if (leftTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (rightTile != NULL){	//Right of base
+		if (rightTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (belowLeftTile != NULL){	//Bottom-left of base
+		if (belowLeftTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (belowTile != NULL){	//Bottom of base
+		if (belowTile->getMine()){
+			numBombs++;
+		}
+	}
+
+	if (belowRightTile != NULL){	//Bottom-right of base
+		if (belowRightTile->getMine()){
+			numBombs++;
+		}
+	}
 	return numBombs;
 }
 

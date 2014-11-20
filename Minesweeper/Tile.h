@@ -3,11 +3,13 @@
 
 #ifndef TILE_H
 #define TILE_H
+
+#include <iostream>
 using namespace System::Drawing;
 
 class Tile{
 private:
-	bool hasBomb;
+	bool hasMine;
 	bool hasFlag;
 	bool hasBeenClicked;
 	int adjacentBombs;
@@ -16,16 +18,24 @@ private:
 
 public:
 	Tile();
-	Tile(bool hasBomb, int x, int y);
-	void setBomb(bool set);
+	Tile(bool hasMine, int x, int y);
+	void setMine(bool set);
 	void setFlag(bool set);
 	void setPosition(int x, int y);
-	void drawTile(Graphics^ g, Bitmap^ b, Bitmap^ bombImg, int x, int y) const;
-	bool getBomb() const;
-	int getAdjacentBombs() const;
+	void drawTile(Graphics^ g, Bitmap^ b, Bitmap^ mineImg, int x, int y) const;
+	bool getMine() const;
+	int getAdjacentMines() const;
 	int getX() const;
 	int getY() const;
 	void setClick(bool hasBeenClicked);
+	Tile *leftTile;
+	Tile *rightTile;
+	Tile *aboveTile;
+	Tile *belowTile;
+	Tile *aboveLeftTile;
+	Tile *aboveRightTile;
+	Tile *belowLeftTile;
+	Tile *belowRightTile;
 };
 
 #endif
