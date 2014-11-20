@@ -16,10 +16,10 @@ namespace Minesweeper {
 
 	const int TILE_WIDTH = 21;
 	const int TILE_HEIGHT = 20;
-	const int FIELD_WIDTH = 15;
-	const int FIELD_HEIGHT = 15;
+	const int FIELD_WIDTH = 25;
+	const int FIELD_HEIGHT = 25;
 	const int SPACE = 2;
-	const int TOTAL_BOMBS = 75;
+	const int TOTAL_BOMBS = 100;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -67,17 +67,17 @@ namespace Minesweeper {
 		Graphics^ g;
 		Graphics^ gbmp;
 		Bitmap^ view;
-		Bitmap^ bmpTile = gcnew Bitmap("graphicsformine/notclicked.png");
-		Bitmap^ bmp0 = gcnew Bitmap("graphicsformine/clickedblank.png");
-		Bitmap^ bmp1 = gcnew Bitmap("graphicsformine/1.png");
-		Bitmap^ bmp2 = gcnew Bitmap("graphicsformine/2.png");
-		Bitmap^ bmp3 = gcnew Bitmap("graphicsformine/3.png");
-		Bitmap^ bmp4 = gcnew Bitmap("graphicsformine/4.png");
-		Bitmap^ bmp5 = gcnew Bitmap("graphicsformine/5.png");
-		Bitmap^ bmp6 = gcnew Bitmap("graphicsformine/6.png");
-		Bitmap^ bmp7 = gcnew Bitmap("graphicsformine/7.png");
-		Bitmap^ bmp8 = gcnew Bitmap("graphicsformine/8.png");
-		Bitmap^ bomb = gcnew Bitmap("graphicsformine/bomb.png");
+		Bitmap^ bmpTile = gcnew Bitmap("updatedgraphics/notclickedredo.png");
+		Bitmap^ bmp0 = gcnew Bitmap("updatedgraphics/clickedblankredo.png");
+		Bitmap^ bmp1 = gcnew Bitmap("updatedgraphics/1redo.png");
+		Bitmap^ bmp2 = gcnew Bitmap("updatedgraphics/2redo.png");
+		Bitmap^ bmp3 = gcnew Bitmap("updatedgraphics/3redo.png");
+		Bitmap^ bmp4 = gcnew Bitmap("updatedgraphics/4redo.png");
+		Bitmap^ bmp5 = gcnew Bitmap("updatedgraphics/5redo.png");
+		Bitmap^ bmp6 = gcnew Bitmap("updatedgraphics/6redo.png");
+		Bitmap^ bmp7 = gcnew Bitmap("updatedgraphics/7redo.png");
+		Bitmap^ bmp8 = gcnew Bitmap("updatedgraphics/8redo.png");
+		Bitmap^ bomb = gcnew Bitmap("updatedgraphics/mine.png");
 		Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
