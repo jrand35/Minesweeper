@@ -70,7 +70,30 @@ bool Tile::getMine() const{
 }
 
 bool Tile::isSurrounded() const{
-	return (getAdjacentMines() == 8);
+	return (getAdjacentMines() == getAdjacentTiles());
+}
+
+int Tile::getAdjacentTiles() const{
+	int numTiles = 0;
+
+	if (leftTile != NULL)
+		numTiles++;
+	if (rightTile != NULL)
+		numTiles++;
+	if (aboveTile != NULL)
+		numTiles++;
+	if (belowTile != NULL)
+		numTiles++;
+	if (aboveLeftTile != NULL)
+		numTiles++;
+	if (aboveRightTile != NULL)
+		numTiles++;
+	if (belowLeftTile != NULL)
+		numTiles++;
+	if (belowRightTile != NULL)
+		numTiles++;
+
+	return numTiles;
 }
 
 int Tile::getAdjacentMines() const{

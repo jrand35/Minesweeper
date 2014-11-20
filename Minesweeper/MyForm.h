@@ -4,6 +4,7 @@
 #include "ResetButton.h"
 #include <random>
 #include <ctime>
+#include <cassert>
 
 namespace Minesweeper {
 
@@ -122,10 +123,12 @@ namespace Minesweeper {
 					for (int j = 0; j < FIELD_HEIGHT; j++){
 						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
 						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getMine()){
-							if (!currentTile->isSurrounded()){
+							//Does not prevent clusters of 9 mines from being created,
+							//Does not set a mine if current mine is surrounded
+					//		if (!currentTile->isSurrounded()){
 								currentTile->setMine(true);
 								numBombs++;
-							}
+					///		}
 						}
 					}
 				}
