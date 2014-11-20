@@ -122,8 +122,10 @@ namespace Minesweeper {
 					for (int j = 0; j < FIELD_HEIGHT; j++){
 						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
 						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getMine()){
-							currentTile->setMine(true);
-							numBombs++;
+							if (!currentTile->isSurrounded()){
+								currentTile->setMine(true);
+								numBombs++;
+							}
 						}
 					}
 				}

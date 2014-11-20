@@ -69,6 +69,10 @@ bool Tile::getMine() const{
 	return hasMine;
 }
 
+bool Tile::isSurrounded() const{
+	return (getAdjacentMines() == 8);
+}
+
 int Tile::getAdjacentMines() const{
 	int numBombs = 0;
 	if (aboveLeftTile != NULL){	//Top-left of base

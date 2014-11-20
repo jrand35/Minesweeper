@@ -24,6 +24,7 @@ public:
 	void setPosition(int x, int y);
 	void drawTile(Graphics^ g, Bitmap^ b, Bitmap^ mineImg, int x, int y) const;
 	bool getMine() const;
+	bool isSurrounded() const;
 	int getAdjacentMines() const;
 	int getX() const;
 	int getY() const;
