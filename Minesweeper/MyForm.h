@@ -186,17 +186,17 @@ namespace Minesweeper {
 						break;
 					}
 
-					currentTile->drawTile(g, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
+					currentTile->drawTile(gbmp, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
 				}
 			}
 		}
 
 		void DrawResetButton(){
 			if (myResetButton->getClicked()){
-				g->DrawImage(resetButtonClicked, myResetButton->getX(), myResetButton->getY());
+				gbmp->DrawImage(resetButtonClicked, myResetButton->getX(), myResetButton->getY());
 			}
 			else{
-				g->DrawImage(resetButton, myResetButton->getX(), myResetButton->getY());
+				gbmp->DrawImage(resetButton, myResetButton->getX(), myResetButton->getY());
 			}
 		}
 		/// <summary>
@@ -259,6 +259,7 @@ namespace Minesweeper {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
 				 DrawTiles();
 				 DrawResetButton();
+				 g->DrawImage(view, Point(0, 0));
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 				 mouseDown = true;
