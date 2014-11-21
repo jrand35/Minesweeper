@@ -253,7 +253,7 @@ namespace Minesweeper {
 				 gbmp = Graphics::FromImage(view);
 				 mouseDown = false;
 				 CreateTiles();
-				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), 100);
+				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
