@@ -10,6 +10,7 @@ private:
 	int x;
 	int y;
 	bool isClicked;
+	bool isToggled;
 
 public:
 	ResetButton();
@@ -17,9 +18,11 @@ public:
 	int getX() const;
 	int getY() const;
 	bool getClicked() const;
+	bool getToggled() const;
 	bool getMouseHovering(int mouseX, int mouseY, int bitmapWidth, int bitmapHeight) const;
 	bool getMouseHovering(int mouseX, int mouseY, Bitmap^ bitmap) const;
 	void setClicked(bool isClicked);
+	void setToggled(bool isToggled);
 };
 
 #endif

@@ -186,13 +186,13 @@ namespace Minesweeper {
 						break;
 					}
 
-					currentTile->drawTile(gbmp, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
+					currentTile->drawTile(gbmp, bmpTile, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
 				}
 			}
 		}
 
 		void DrawResetButton(){
-			if (myResetButton->getClicked()){
+			if (myResetButton->getToggled()){
 				gbmp->DrawImage(resetButtonClicked, myResetButton->getX(), myResetButton->getY());
 			}
 			else{
@@ -267,13 +267,19 @@ namespace Minesweeper {
 				 int mouseY = e->Y;
 				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
 					 myResetButton->setClicked(true);
+					 myResetButton->setToggled(true);
 					 panel1->Refresh();
 				 }
 	}
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 mouseDown = false;
-			 if (myResetButton->getClicked()){
+	//		 if (myResetButton->getClicked()){
+	//			 myResetButton->setClicked(false);
+	//			 panel1->Refresh();
+	//		 }
+			 if (myResetButton->getToggled() || myResetButton->getClicked()){
 				 myResetButton->setClicked(false);
+				 myResetButton->setToggled(false);
 				 panel1->Refresh();
 			 }
 }
@@ -281,13 +287,17 @@ private: System::Void panel1_MouseMove(System::Object^  sender, System::Windows:
 			 int mouseX = e->X;
 			 int mouseY = e->Y;
 			 if (mouseDown){
-				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton) && !myResetButton->getClicked()){
-					 myResetButton->setClicked(true);
-					 panel1->Refresh();
+				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton) && myResetButton->getClicked()){
+					 if (!myResetButton->getToggled()){
+						 myResetButton->setToggled(true);
+						 panel1->Refresh();
+					 }
 				 }
 				 else if (!myResetButton->getMouseHovering(mouseX, mouseY, resetButton) && myResetButton->getClicked()){
-					 myResetButton->setClicked(false);
-					 panel1->Refresh();
+					 if (myResetButton->getToggled()){
+						 myResetButton->setToggled(false);
+						 panel1->Refresh();
+					 }
 				 }
 			 }
 }

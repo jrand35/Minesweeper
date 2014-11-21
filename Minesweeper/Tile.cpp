@@ -8,7 +8,7 @@ using namespace System::Drawing;
 Tile::Tile(){
 	Tile::hasMine = false;
 	Tile::hasFlag = false;
-	Tile::hasBeenClicked = false;
+	Tile::hasBeenRevealed = false;
 	Tile::adjacentBombs = 0;
 	Tile::x = 0;
 	Tile::y = 0;
@@ -27,7 +27,7 @@ Tile::Tile(){
 Tile::Tile(bool hasMine, int x, int y){
 	Tile::hasMine = hasMine;
 	Tile::hasFlag = false;
-	Tile::hasBeenClicked = false;
+	Tile::hasBeenRevealed = false;
 	Tile::adjacentBombs = 0;
 	Tile::x = x;
 	Tile::y = y;
@@ -55,14 +55,23 @@ void Tile::setPosition(int x, int y){
 	Tile::y = y;
 }
 
-void Tile::drawTile(Graphics^ g, Bitmap^ img, Bitmap^ mineImg, int x, int y) const{
+void Tile::drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ mineImg, int x, int y) const{
 	//Post: Should draw tile graphic OR mine graphic
-	if (hasMine){
-		g->DrawImage(mineImg, x, y);
+	if (!hasBeenRevealed){
+		g->DrawImage(notClickedImg, x, y);
 	}
 	else{
-		g->DrawImage(img, x, y);
+		if (hasMine){
+			g->DrawImage(mineImg, x, y);
+		}
+		else{
+			g->DrawImage(img, x, y);
+		}
 	}
+}
+
+void Tile::setRevealed(bool hasBeenRevealed){
+	Tile::hasBeenRevealed = hasBeenRevealed;
 }
 
 bool Tile::getMine() const{
@@ -71,6 +80,10 @@ bool Tile::getMine() const{
 
 bool Tile::isSurrounded() const{
 	return (getAdjacentMines() == getAdjacentTiles());
+}
+
+bool Tile::getRevealed() const{
+	return hasBeenRevealed;
 }
 
 int Tile::getAdjacentTiles() const{
@@ -154,8 +167,4 @@ int Tile::getX() const{
 
 int Tile::getY() const{
 	return Tile::y;
-}
-
-void Tile::setClick(bool hasBeenClicked){
-	Tile::hasBeenClicked = hasBeenClicked;
 }
