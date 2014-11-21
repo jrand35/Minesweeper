@@ -20,7 +20,7 @@ namespace Minesweeper {
 	const int FIELD_WIDTH = 25;
 	const int FIELD_HEIGHT = 25;
 	const int SPACE = 2;
-	const int TOTAL_BOMBS = 100;
+	const int TOTAL_BOMBS = 120;
 
 	/// <summary>
 	/// Summary for MyForm
