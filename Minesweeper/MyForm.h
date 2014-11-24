@@ -84,6 +84,10 @@ namespace Minesweeper {
 		Tile* tiles;
 		ResetButton* myResetButton;
 
+		int TileIndex(int mouseX, int mouseY){
+			return 0;
+		}
+
 		void CreateTiles(){
 			//i = row, j = column
 			tiles = new Tile[FIELD_WIDTH * FIELD_HEIGHT];
@@ -265,9 +269,18 @@ namespace Minesweeper {
 				 mouseDown = true;
 				 int mouseX = e->X;
 				 int mouseY = e->Y;
+				 
+				 //Click Reset Button
 				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
 					 myResetButton->setClicked(true);
 					 myResetButton->setToggled(true);
+					 panel1->Refresh();
+				 }
+
+				 //Click Tiles
+				 if (mouseX >= 0 && mouseY >= 0 && mouseX <= panelWidth && mouseY <= panelHeight - 5){
+					 int tileIndex = TileIndex(mouseX, mouseY);
+					 tiles[tileIndex].setRevealed(true);
 					 panel1->Refresh();
 				 }
 	}
