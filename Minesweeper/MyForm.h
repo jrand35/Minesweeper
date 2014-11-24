@@ -32,6 +32,7 @@ namespace Minesweeper {
 		int panelHeight;
 		int numBombs;
 		bool mouseDown;
+		bool firstClick;
 
 	public:
 		MyForm(void)
@@ -85,7 +86,22 @@ namespace Minesweeper {
 		ResetButton* myResetButton;
 
 		int TileIndex(int mouseX, int mouseY){
-			return 0;
+			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
+			int startX = (panelWidth / 2) - (totalWidth / 2);
+			int tileX = startX;
+			int tileY = 0;
+			int indexX = 0;
+			int indexY = 0;
+			while (tileX + (TILE_WIDTH + SPACE) < mouseX){
+				tileX += (TILE_WIDTH + SPACE);
+				indexX++;
+			}
+			while (tileY + (TILE_HEIGHT + SPACE) < mouseY){
+				tileY += (TILE_HEIGHT + SPACE);
+				indexY++;
+			}
+			int tileIndex = (FIELD_WIDTH * indexY) + indexX;
+			return tileIndex;
 		}
 
 		void CreateTiles(){
@@ -256,6 +272,7 @@ namespace Minesweeper {
 				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
 				 gbmp = Graphics::FromImage(view);
 				 mouseDown = false;
+				 firstClick = true;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
 	}
@@ -280,8 +297,11 @@ namespace Minesweeper {
 				 //Click Tiles
 				 if (mouseX >= 0 && mouseY >= 0 && mouseX <= panelWidth && mouseY <= panelHeight - 5){
 					 int tileIndex = TileIndex(mouseX, mouseY);
-					 tiles[tileIndex].setRevealed(true);
-					 panel1->Refresh();
+					 Tile *clickedTile = tiles + tileIndex;
+					 if (!clickedTile->getRevealed()){
+						 clickedTile->setRevealed(true);
+						 panel1->Refresh();
+					 }
 				 }
 	}
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
