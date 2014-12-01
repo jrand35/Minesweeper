@@ -288,22 +288,26 @@ namespace Minesweeper {
 				 int mouseY = e->Y;
 				 
 				 //Click Reset Button
-				 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
-					 myResetButton->setClicked(true);
-					 myResetButton->setToggled(true);
-					 panel1->Refresh();
+				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
+					 if (myResetButton->getMouseHovering(mouseX, mouseY, resetButton->Width, resetButton->Height)){
+						 myResetButton->setClicked(true);
+						 myResetButton->setToggled(true);
+						 panel1->Refresh();
+					 }
 				 }
 
 				 //Click Tiles
-				 if (mouseX >= 0 && mouseY >= 0 && mouseX <= panelWidth && mouseY <= panelHeight - 5){
-					 int tileIndex = TileIndex(mouseX, mouseY);
-					 Tile *clickedTile = tiles + tileIndex;
-					 if (!clickedTile->getRevealed()){
-						 clickedTile->setRevealed(true);
-						 if (firstClick){
-							 firstClick = false;
+				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
+					 if (mouseX >= 0 && mouseY >= 0 && mouseX <= panelWidth && mouseY <= panelHeight - 5){
+						 int tileIndex = TileIndex(mouseX, mouseY);
+						 Tile *clickedTile = tiles + tileIndex;
+						 if (!clickedTile->getRevealed()){
+							 clickedTile->setRevealed(true);
+							 if (firstClick){
+								 firstClick = false;
+							 }
+							 panel1->Refresh();
 						 }
-						 panel1->Refresh();
 					 }
 				 }
 	}
