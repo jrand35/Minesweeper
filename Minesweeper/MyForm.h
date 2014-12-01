@@ -300,6 +300,9 @@ namespace Minesweeper {
 					 Tile *clickedTile = tiles + tileIndex;
 					 if (!clickedTile->getRevealed()){
 						 clickedTile->setRevealed(true);
+						 if (firstClick){
+							 firstClick = false;
+						 }
 						 panel1->Refresh();
 					 }
 				 }
