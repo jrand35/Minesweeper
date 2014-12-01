@@ -31,6 +31,8 @@ namespace Minesweeper {
 		int panelWidth;
 		int panelHeight;
 		int numBombs;
+		int spaceLeft;
+		int spaceRight;
 		bool mouseDown;
 		bool firstClick;
 
@@ -158,6 +160,8 @@ namespace Minesweeper {
 		void DrawTiles(){
 			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
 			int startX = (panelWidth / 2) - (totalWidth / 2);
+			spaceLeft = startX;
+			spaceRight = panelWidth - (((FIELD_WIDTH - 1) * (TILE_WIDTH + SPACE) + startX) + TILE_WIDTH);
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
 					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
@@ -298,7 +302,7 @@ namespace Minesweeper {
 
 				 //Click Tiles
 				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
-					 if (mouseX >= 0 && mouseY >= 0 && mouseX <= panelWidth && mouseY <= panelHeight - 5){
+					 if (mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= panelHeight - 5){
 						 int tileIndex = TileIndex(mouseX, mouseY);
 						 Tile *clickedTile = tiles + tileIndex;
 						 if (!clickedTile->getRevealed()){
