@@ -35,6 +35,7 @@ namespace Minesweeper {
 		int spaceRight;
 		bool mouseDown;
 		bool firstClick;
+		bool gameOver;
 
 	public:
 		MyForm(void)
@@ -81,7 +82,9 @@ namespace Minesweeper {
 		Bitmap^ bmp6 = gcnew Bitmap("updatedgraphics/6redo.png");
 		Bitmap^ bmp7 = gcnew Bitmap("updatedgraphics/7redo.png");
 		Bitmap^ bmp8 = gcnew Bitmap("updatedgraphics/8redo.png");
-		Bitmap^ bomb = gcnew Bitmap("updatedgraphics/mine.png");
+		Bitmap^ bmpFlag = gcnew Bitmap("updatedgraphics/flagredo.png");
+		Bitmap^ mine = gcnew Bitmap("updatedgraphics/mine.png");
+		Bitmap^ mineClicked = gcnew Bitmap("updatedgraphics/mineclicked.png");
 		Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
@@ -210,7 +213,33 @@ namespace Minesweeper {
 						break;
 					}
 
-					currentTile->drawTile(gbmp, bmpTile, tileBitmap, bomb, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
+					currentTile->drawTile(gbmp, bmpTile, tileBitmap, bmpFlag, mine, mineClicked, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
+				}
+			}
+		}
+
+		void Iteration(Tile *tile){
+			if (tile != NULL){
+				if (!tile->getMine() && !tile->getFlag() && !tile->getRevealed()){
+					tile->setRevealed(true);
+					if (tile->getAdjacentMines() == 0){
+						RevealTiles(tile);
+					}
+				}
+			}
+		}
+
+		void RevealTiles(Tile *tile){
+			Iteration(tile->aboveTile);
+			Iteration(tile->leftTile);
+			Iteration(tile->rightTile);
+			Iteration(tile->belowTile);
+		}
+
+		void RevealMines(){
+			for (int i = 0; i < FIELD_WIDTH * FIELD_HEIGHT; i++){
+				if (tiles[i].getMine()){
+					tiles[i].setRevealed(true);
 				}
 			}
 		}
@@ -277,6 +306,7 @@ namespace Minesweeper {
 				 gbmp = Graphics::FromImage(view);
 				 mouseDown = false;
 				 firstClick = true;
+				 gameOver = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
 	}
@@ -302,13 +332,36 @@ namespace Minesweeper {
 
 				 //Click Tiles
 				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
-					 if (mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= panelHeight - 5){
+					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= panelHeight - 5){
+						 int tileIndex = TileIndex(mouseX, mouseY);
+						 Tile *clickedTile = tiles + tileIndex;
+						 if (!clickedTile->getRevealed() && !clickedTile->getFlag()){
+							 if (!clickedTile->getMine()){
+								 clickedTile->setRevealed(true);
+								 RevealTiles(clickedTile);
+								 if (firstClick){
+									 firstClick = false;
+								 }
+							 }
+							 else{
+								 clickedTile->setMineClicked(true);
+								 RevealMines();
+								 gameOver = true;
+							 }
+							 panel1->Refresh();
+						 }
+					 }
+				 }
+				 else if (e->Button == System::Windows::Forms::MouseButtons::Right){
+					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= panelHeight - 5){
 						 int tileIndex = TileIndex(mouseX, mouseY);
 						 Tile *clickedTile = tiles + tileIndex;
 						 if (!clickedTile->getRevealed()){
-							 clickedTile->setRevealed(true);
-							 if (firstClick){
-								 firstClick = false;
+							 if (clickedTile->getFlag()){
+								 clickedTile->setFlag(false);
+							 }
+							 else if (!clickedTile->getFlag()){
+								 clickedTile->setFlag(true);
 							 }
 							 panel1->Refresh();
 						 }

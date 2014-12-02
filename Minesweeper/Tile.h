@@ -12,6 +12,7 @@ private:
 	bool hasMine;
 	bool hasFlag;
 	bool hasBeenRevealed;
+	bool mineClicked;
 	int adjacentBombs;
 	int x;
 	int y;
@@ -22,9 +23,11 @@ public:
 	void setMine(bool set);
 	void setFlag(bool set);
 	void setPosition(int x, int y);
-	void drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ mineImg, int x, int y) const;
+	void drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ flagImg, Bitmap^ mineImg, Bitmap^ mineClickedImg, int x, int y) const;
 	void setRevealed(bool hasBeenRevealed);
+	void setMineClicked(bool mineClicked);
 	bool getMine() const;
+	bool getFlag() const;
 	bool isSurrounded() const;
 	bool getRevealed() const;
 	int getAdjacentTiles() const;
