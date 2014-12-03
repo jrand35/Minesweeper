@@ -33,6 +33,8 @@ namespace Minesweeper {
 		int numBombs;
 		int spaceLeft;
 		int spaceRight;
+		int startX;
+		int tileArrayHeight;
 		bool mouseDown;
 		bool firstClick;
 		bool gameOver;
@@ -165,9 +167,10 @@ namespace Minesweeper {
 		//Draw the tiles onto the panel
 		void DrawTiles(){
 			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
-			int startX = (panelWidth / 2) - (totalWidth / 2);
+			startX = (panelWidth / 2) - (totalWidth / 2);
 			spaceLeft = startX;
 			spaceRight = panelWidth - (((FIELD_WIDTH - 1) * (TILE_WIDTH + SPACE) + startX) + TILE_WIDTH);
+			tileArrayHeight = (FIELD_HEIGHT - 1) * (TILE_HEIGHT + SPACE) + TILE_HEIGHT;
 			for (int i = 0; i < FIELD_WIDTH; i++){
 				for (int j = 0; j < FIELD_HEIGHT; j++){
 					Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
@@ -340,7 +343,7 @@ namespace Minesweeper {
 
 				 //Click Tiles
 				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
-					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= panelHeight - 5){
+					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
 						 int tileIndex = TileIndex(mouseX, mouseY);
 						 Tile *clickedTile = tiles + tileIndex;
 						 if (!clickedTile->getRevealed() && !clickedTile->getFlag()){
@@ -361,7 +364,7 @@ namespace Minesweeper {
 					 }
 				 }
 				 else if (e->Button == System::Windows::Forms::MouseButtons::Right){
-					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= panelHeight - 5){
+					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
 						 int tileIndex = TileIndex(mouseX, mouseY);
 						 Tile *clickedTile = tiles + tileIndex;
 						 if (!clickedTile->getRevealed()){
