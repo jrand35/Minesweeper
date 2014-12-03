@@ -89,7 +89,8 @@ namespace Minesweeper {
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
 		ResetButton* myResetButton;
-
+		
+		//Return index of tile in tile array when the mouse is clicked
 		int TileIndex(int mouseX, int mouseY){
 			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
 			int startX = (panelWidth / 2) - (totalWidth / 2);
@@ -109,6 +110,7 @@ namespace Minesweeper {
 			return tileIndex;
 		}
 
+		//Create tile array, afterward randomly place mines
 		void CreateTiles(){
 			//i = row, j = column
 			tiles = new Tile[FIELD_WIDTH * FIELD_HEIGHT];
@@ -160,6 +162,7 @@ namespace Minesweeper {
 			}
 		}
 
+		//Draw the tiles onto the panel
 		void DrawTiles(){
 			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
 			int startX = (panelWidth / 2) - (totalWidth / 2);
@@ -218,6 +221,7 @@ namespace Minesweeper {
 			}
 		}
 
+		//Reveal a tile when another tile is clicked if certain conditions are met
 		void Iteration(Tile *tile){
 			if (tile != NULL){
 				if (!tile->getMine() && !tile->getFlag() && !tile->getRevealed()){
@@ -229,6 +233,8 @@ namespace Minesweeper {
 			}
 		}
 
+		//Call Iteration function on tiles above, below, and to the left and right of the tile
+		//When completed, a click should reveal an empty space surrounded by numbers
 		void RevealTiles(Tile *tile){
 			Iteration(tile->aboveTile);
 			Iteration(tile->leftTile);
@@ -236,6 +242,7 @@ namespace Minesweeper {
 			Iteration(tile->belowTile);
 		}
 
+		//When a mine is clicked and the game ends
 		void RevealMines(){
 			for (int i = 0; i < FIELD_WIDTH * FIELD_HEIGHT; i++){
 				if (tiles[i].getMine()){
@@ -243,7 +250,8 @@ namespace Minesweeper {
 				}
 			}
 		}
-
+		
+		//Draw the reset button
 		void DrawResetButton(){
 			if (myResetButton->getToggled()){
 				gbmp->DrawImage(resetButtonClicked, myResetButton->getX(), myResetButton->getY());
