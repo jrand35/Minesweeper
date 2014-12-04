@@ -373,9 +373,9 @@ namespace Minesweeper {
 				 gameOver = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
-				 player = gcnew System::Media::SoundPlayer();
-				 player->SoundLocation = "jeopardy.wav";
-				 player->Play();
+				 //player = gcnew System::Media::SoundPlayer();
+				 //player->SoundLocation = "jeopardy.wav";
+				// player->Play();
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
