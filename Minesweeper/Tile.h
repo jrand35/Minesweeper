@@ -26,6 +26,7 @@ public:
 	void drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ flagImg, Bitmap^ mineImg, Bitmap^ mineClickedImg, int x, int y) const;
 	void setRevealed(bool hasBeenRevealed);
 	void setMineClicked(bool mineClicked);
+	void ResetTile();
 	bool getMine() const;
 	bool getFlag() const;
 	bool isSurrounded() const;
