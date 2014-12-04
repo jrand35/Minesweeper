@@ -44,4 +44,9 @@
       <Filter>Resource Files</Filter>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <Media Include="C:\Users\msanto\Desktop\jeapordy.wav">
+      <Filter>Source Files</Filter>
+    </Media>
+  </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@
 #include <ctime>
 #include <cassert>
 
+
 namespace Minesweeper {
 
 	using namespace System;
@@ -14,6 +15,9 @@ namespace Minesweeper {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Media;
+
+
 
 	const int TILE_WIDTH = 21;
 	const int TILE_HEIGHT = 20;
@@ -26,6 +30,7 @@ namespace Minesweeper {
 	/// Summary for MyForm
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
+
 	{
 	private:
 		int panelWidth;
@@ -91,7 +96,9 @@ namespace Minesweeper {
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
 		ResetButton* myResetButton;
-		
+		SoundPlayer^ player;
+
+
 		//Return index of tile in tile array when the mouse is clicked
 		int TileIndex(int mouseX, int mouseY){
 			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
@@ -320,6 +327,11 @@ namespace Minesweeper {
 				 gameOver = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
+				 System::Media::SoundPlayer^ player = gcnew System::Media::SoundPlayer();
+				 player->SoundLocation = "jeapordy.wav";
+				 player->Play();
+			
+				
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
