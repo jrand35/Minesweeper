@@ -360,7 +360,10 @@ namespace Minesweeper {
 						 if (!clickedTile->getRevealed() && !clickedTile->getFlag()){
 							 if (!clickedTile->getMine()){
 								 clickedTile->setRevealed(true);
-								 RevealTiles(clickedTile);
+								 //Reveal adjacent empty tiles ONLY if clicked tile has no surrounding mines
+								 if (clickedTile->getAdjacentMines() == 0){
+									 RevealTiles(clickedTile);
+								 }
 								 if (firstClick){
 									 firstClick = false;
 								 }
