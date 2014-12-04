@@ -14,6 +14,7 @@ namespace Minesweeper {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::Media;
 
 	const int TILE_WIDTH = 21;
 	const int TILE_HEIGHT = 20;
@@ -91,6 +92,7 @@ namespace Minesweeper {
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
 		ResetButton* myResetButton;
+		SoundPlayer ^player;
 		
 		//Return index of tile in tile array when the mouse is clicked
 		int TileIndex(int mouseX, int mouseY){
@@ -320,6 +322,9 @@ namespace Minesweeper {
 				 gameOver = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
+				 //player = gcnew System::Media::SoundPlayer();
+				 //player->SoundLocation = "jeopardy.wav";
+				// player->Play();
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
