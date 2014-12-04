@@ -92,6 +92,17 @@ namespace Minesweeper {
 		Tile* tiles;
 		ResetButton* myResetButton;
 		
+		//Resets the tile field for when the user restarts the game
+		void ResetField(){
+			firstClick = true;
+			gameOver = false;
+			numBombs = 0;
+			for (int i = 0; i < FIELD_WIDTH * FIELD_HEIGHT; i++){
+				Tile *tile = &tiles[i];
+				tile->ResetTile();
+			}
+		}
+
 		//Return index of tile in tile array when the mouse is clicked
 		int TileIndex(int mouseX, int mouseY){
 			int totalWidth = (FIELD_WIDTH * TILE_WIDTH) + (SPACE * (FIELD_WIDTH - 1));
@@ -110,6 +121,43 @@ namespace Minesweeper {
 			}
 			int tileIndex = (FIELD_WIDTH * indexY) + indexX;
 			return tileIndex;
+		}
+
+		void RemoveMine(Tile *clickedTile){
+			if (clickedTile != nullptr){
+				clickedTile->setMine(false);
+			}
+		}
+
+		void PlaceMines(Tile *clickedTile){
+			while (numBombs < TOTAL_BOMBS){
+				for (int i = 0; i < FIELD_WIDTH; i++){
+					for (int j = 0; j < FIELD_HEIGHT; j++){
+						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
+						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getMine()){
+							//Does not prevent clusters of 9 mines from being created,
+							//Does not set a mine if current mine is surrounded
+							//		if (!currentTile->isSurrounded()){
+							currentTile->setMine(true);
+							numBombs++;
+							//		}
+						}
+					}
+				}
+				if (clickedTile->getMine()){
+					clickedTile->setMine(false);
+				}
+				if (clickedTile->getAdjacentMines() != 0){
+					RemoveMine(clickedTile->aboveLeftTile);
+					RemoveMine(clickedTile->aboveTile);
+					RemoveMine(clickedTile->aboveRightTile);
+					RemoveMine(clickedTile->leftTile);
+					RemoveMine(clickedTile->rightTile);
+					RemoveMine(clickedTile->belowLeftTile);
+					RemoveMine(clickedTile->belowTile);
+					RemoveMine(clickedTile->belowRightTile);
+				}
+			}
 		}
 
 		//Create tile array, afterward randomly place mines
@@ -147,21 +195,7 @@ namespace Minesweeper {
 					}
 				}
 			}
-			while (numBombs < TOTAL_BOMBS){
-				for (int i = 0; i < FIELD_WIDTH; i++){
-					for (int j = 0; j < FIELD_HEIGHT; j++){
-						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
-						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getMine()){
-							//Does not prevent clusters of 9 mines from being created,
-							//Does not set a mine if current mine is surrounded
-					//		if (!currentTile->isSurrounded()){
-								currentTile->setMine(true);
-								numBombs++;
-					///		}
-						}
-					}
-				}
-			}
+		//	PlaceMines();
 		}
 
 		//Draw the tiles onto the panel
@@ -243,6 +277,12 @@ namespace Minesweeper {
 			Iteration(tile->leftTile);
 			Iteration(tile->rightTile);
 			Iteration(tile->belowTile);
+
+			Iteration(tile->aboveLeftTile);
+			Iteration(tile->aboveRightTile);
+			Iteration(tile->belowLeftTile);
+			Iteration(tile->belowRightTile);
+
 		}
 
 		//When a mine is clicked and the game ends
@@ -268,7 +308,7 @@ namespace Minesweeper {
 		void ShowDialogBox(){
 			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "Play again?", "Minesweeper", MessageBoxButtons::YesNo);
 			if (result == System::Windows::Forms::DialogResult::Yes){
-				;
+				ResetField();
 			}
 			else if (result == System::Windows::Forms::DialogResult::No){
 				exit(0);
@@ -359,13 +399,14 @@ namespace Minesweeper {
 						 Tile *clickedTile = tiles + tileIndex;
 						 if (!clickedTile->getRevealed() && !clickedTile->getFlag()){
 							 if (!clickedTile->getMine()){
+								 if (firstClick){
+									 PlaceMines(clickedTile);
+									 firstClick = false;
+								 }
 								 clickedTile->setRevealed(true);
 								 //Reveal adjacent empty tiles ONLY if clicked tile has no surrounding mines
 								 if (clickedTile->getAdjacentMines() == 0){
 									 RevealTiles(clickedTile);
-								 }
-								 if (firstClick){
-									 firstClick = false;
 								 }
 							 }
 							 else{

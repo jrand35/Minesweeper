@@ -90,6 +90,14 @@ void Tile::setMineClicked(bool mineClicked){
 	Tile::mineClicked = mineClicked;
 }
 
+void Tile::ResetTile(){
+	hasMine = false;
+	hasFlag = false;
+	hasBeenRevealed = false;
+	mineClicked = false;
+	adjacentBombs = 0;
+}
+
 bool Tile::getMine() const{
 	return hasMine;
 }
