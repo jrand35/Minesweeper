@@ -263,6 +263,17 @@ namespace Minesweeper {
 				gbmp->DrawImage(resetButton, myResetButton->getX(), myResetButton->getY());
 			}
 		}
+
+		//Show Dialog box
+		void ShowDialogBox(){
+			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "Play again?", "Minesweeper", MessageBoxButtons::YesNo);
+			if (result == System::Windows::Forms::DialogResult::Yes){
+				;
+			}
+			else if (result == System::Windows::Forms::DialogResult::No){
+				exit(0);
+			}
+		}
 		/// <summary>
 		/// Required designer variable.
 		/// </summary>
@@ -388,6 +399,7 @@ private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::F
 			 if (myResetButton->getToggled() || myResetButton->getClicked()){
 				 myResetButton->setClicked(false);
 				 myResetButton->setToggled(false);
+				 ShowDialogBox();
 				 panel1->Refresh();
 			 }
 }
