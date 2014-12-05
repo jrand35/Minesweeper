@@ -374,7 +374,7 @@ namespace Minesweeper {
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
 				 player = gcnew System::Media::SoundPlayer();
-				 player->SoundLocation = "jeopardy.wav"; // Enables sound player
+				 player->SoundLocation = "Mortal.wav"; // Enables sound player
 				 player->Play(); // Plays music
 				 player->PlayLooping(); // Loops the music
 				 
