@@ -32,6 +32,8 @@ namespace Minesweeper {
 		int panelWidth;
 		int panelHeight;
 		int numBombs;
+		int remainingMines;
+		int numFlags;
 		int spaceLeft;
 		int spaceRight;
 		int startX;
@@ -99,6 +101,8 @@ namespace Minesweeper {
 			firstClick = true;
 			gameOver = false;
 			numBombs = 0;
+			remainingMines = TOTAL_BOMBS;
+			numFlags = 0;
 			for (int i = 0; i < FIELD_WIDTH * FIELD_HEIGHT; i++){
 				Tile *tile = &tiles[i];
 				tile->ResetTile();
@@ -364,6 +368,8 @@ namespace Minesweeper {
 				 panelWidth = (int)(this->panel1->Width);
 				 panelHeight = (int)(this->panel1->Height);
 				 numBombs = 0;
+				 remainingMines = TOTAL_BOMBS;
+				 numFlags = 0;
 				 srand(time(0));
 				 g = panel1->CreateGraphics();
 				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
@@ -373,14 +379,19 @@ namespace Minesweeper {
 				 gameOver = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
-				 //player = gcnew System::Media::SoundPlayer();
-				 //player->SoundLocation = "jeopardy.wav";
-				// player->Play();
+				 player = gcnew System::Media::SoundPlayer();
+				 player->SoundLocation = "jeopardy.wav";
+				 player->Play();
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
 				 DrawTiles();
 				 DrawResetButton();
+				 System::Drawing::Font ^drawFont = gcnew System::Drawing::Font("Calibri", 12);
+				 System::Drawing::SolidBrush ^drawBrush = gcnew System::Drawing::SolidBrush(System::Drawing::Color::Black);
+				 System::Drawing::StringFormat ^drawFormat = gcnew System::Drawing::StringFormat();
+				 g->DrawString("Mines remaining: " + remainingMines.ToString(), drawFont, drawBrush, 50, panelHeight - 20, drawFormat);
+				 g->DrawString("Flags: " + numFlags.ToString(), drawFont, drawBrush, panelWidth - 150, panelHeight - 20, drawFormat);
 				 g->DrawImage(view, Point(0, 0));
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -430,9 +441,13 @@ namespace Minesweeper {
 						 if (!clickedTile->getRevealed()){
 							 if (clickedTile->getFlag()){
 								 clickedTile->setFlag(false);
+								 remainingMines++;
+								 numFlags--;
 							 }
 							 else if (!clickedTile->getFlag()){
 								 clickedTile->setFlag(true);
+								 remainingMines--;
+								 numFlags++;
 							 }
 							 panel1->Refresh();
 						 }
