@@ -308,7 +308,7 @@ namespace Minesweeper {
 
 		//Show Dialog box
 		void ShowDialogBox(){
-			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "Play again?", "Minesweeper", MessageBoxButtons::YesNo);
+			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "Play again?", "Minesweeper", MessageBoxButtons::YesNoCancel);
 			if (result == System::Windows::Forms::DialogResult::Yes){
 				ResetField();
 			}
@@ -373,9 +373,11 @@ namespace Minesweeper {
 				 gameOver = false;
 				 CreateTiles();
 				 myResetButton = new ResetButton((panelWidth / 2) - (resetButton->Width / 2), (panelHeight - resetButton->Height));
-				 //player = gcnew System::Media::SoundPlayer();
-				 //player->SoundLocation = "jeopardy.wav";
-				// player->Play();
+				 player = gcnew System::Media::SoundPlayer();
+				 player->SoundLocation = "jeopardy.wav"; // Enables sound player
+				 player->Play(); // Plays music
+				 player->PlayLooping(); // Loops the music
+				 
 	}
 	private: System::Void panel1_Paint(System::Object^  sender, System::Windows::Forms::PaintEventArgs^  e) {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
