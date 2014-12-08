@@ -91,6 +91,7 @@ namespace Minesweeper {
 		Bitmap^ bmpFlag = gcnew Bitmap("updatedgraphics/flagredo.png");
 		Bitmap^ mine = gcnew Bitmap("updatedgraphics/mine.png");
 		Bitmap^ mineClicked = gcnew Bitmap("updatedgraphics/mineclicked.png");
+		Bitmap^ flaggedWrongMine = gcnew Bitmap("updatedgraphics/flaggedwrongmine.png");
 		Bitmap^ resetButton = gcnew Bitmap("graphicsformine/resetbutton/resetunclicked.png");
 		Bitmap^ resetButtonClicked = gcnew Bitmap("graphicsformine/resetbutton/resetclicked.png");
 		Tile* tiles;
