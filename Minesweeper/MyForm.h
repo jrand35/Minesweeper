@@ -392,11 +392,11 @@ namespace Minesweeper {
 				// g->DrawImage(bmp2, 0, 0, 37, 36);
 				 DrawTiles();
 				 DrawResetButton();
-				 System::Drawing::Font ^drawFont = gcnew System::Drawing::Font("Calibri", 12);
+				 System::Drawing::Font ^drawFont = gcnew System::Drawing::Font("Moire", 12, System::Drawing::FontStyle::Bold);
 				 System::Drawing::SolidBrush ^drawBrush = gcnew System::Drawing::SolidBrush(System::Drawing::Color::Black);
 				 System::Drawing::StringFormat ^drawFormat = gcnew System::Drawing::StringFormat();
-				 g->DrawString("Mines remaining: " + remainingMines.ToString(), drawFont, drawBrush, 50, panelHeight - 20, drawFormat);
-				 g->DrawString("Flags: " + numFlags.ToString(), drawFont, drawBrush, panelWidth - 150, panelHeight - 20, drawFormat);
+				 g->DrawString("Mines remaining: " + remainingMines.ToString(), drawFont, drawBrush, 30, panelHeight - 20, drawFormat);
+				 g->DrawString("Flags: " + numFlags.ToString(), drawFont, drawBrush, panelWidth - 170, panelHeight - 20, drawFormat);
 				 g->DrawImage(view, Point(0, 0));
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
