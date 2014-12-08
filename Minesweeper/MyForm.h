@@ -34,6 +34,7 @@ namespace Minesweeper {
 		int numBombs;
 		int remainingMines;
 		int numFlags;
+		int unclickedSpaces;
 		int spaceLeft;
 		int spaceRight;
 		int startX;
@@ -103,6 +104,7 @@ namespace Minesweeper {
 			numBombs = 0;
 			remainingMines = TOTAL_BOMBS;
 			numFlags = 0;
+			unclickedSpaces = (FIELD_WIDTH * FIELD_HEIGHT) - TOTAL_BOMBS;
 			for (int i = 0; i < FIELD_WIDTH * FIELD_HEIGHT; i++){
 				Tile *tile = &tiles[i];
 				tile->ResetTile();
@@ -370,6 +372,7 @@ namespace Minesweeper {
 				 numBombs = 0;
 				 remainingMines = TOTAL_BOMBS;
 				 numFlags = 0;
+				 unclickedSpaces = (FIELD_WIDTH * FIELD_HEIGHT) - TOTAL_BOMBS;
 				 srand(time(0));
 				 g = panel1->CreateGraphics();
 				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
