@@ -262,7 +262,7 @@ namespace Minesweeper {
 						break;
 					}
 
-					currentTile->drawTile(gbmp, bmpTile, tileBitmap, bmpFlag, mine, mineClicked, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
+					currentTile->drawTile(gbmp, bmpTile, tileBitmap, bmpFlag, mine, mineClicked, flaggedWrongMine, currentTile->getX() * (TILE_WIDTH + SPACE) + startX, currentTile->getY() * (TILE_HEIGHT + SPACE));
 				}
 			}
 		}
@@ -297,7 +297,7 @@ namespace Minesweeper {
 		//When a mine is clicked and the game ends
 		void RevealMines(){
 			for (int i = 0; i < FIELD_WIDTH * FIELD_HEIGHT; i++){
-				if (tiles[i].getMine()){
+				if (tiles[i].getMine() || tiles[i].getFlag()){
 					tiles[i].setRevealed(true);
 				}
 			}

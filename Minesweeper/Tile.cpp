@@ -57,7 +57,7 @@ void Tile::setPosition(int x, int y){
 	Tile::y = y;
 }
 
-void Tile::drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ flagImg, Bitmap^ mineImg, Bitmap^ mineClickedImg, int x, int y) const{
+void Tile::drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ flagImg, Bitmap^ mineImg, Bitmap^ mineClickedImg, Bitmap^ flaggedWrongMineImg, int x, int y) const{
 	//Post: Should draw tile graphic OR mine graphic
 	if (!hasBeenRevealed){
 		if (hasFlag){
@@ -67,7 +67,7 @@ void Tile::drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ fla
 			g->DrawImage(notClickedImg, x, y);
 		}
 	}
-	else{
+	else{	// if hasBeenRevealed
 		if (hasMine){
 			if (mineClicked){
 				g->DrawImage(mineClickedImg, x, y);
@@ -77,7 +77,12 @@ void Tile::drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ fla
 			}
 		}
 		else{
-			g->DrawImage(img, x, y);
+			if (hasFlag){
+				g->DrawImage(flaggedWrongMineImg, x, y);
+			}
+			else{
+				g->DrawImage(img, x, y);
+			}
 		}
 	}
 }

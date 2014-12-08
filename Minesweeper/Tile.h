@@ -23,7 +23,7 @@ public:
 	void setMine(bool set);
 	void setFlag(bool set);
 	void setPosition(int x, int y);
-	void drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ flagImg, Bitmap^ mineImg, Bitmap^ mineClickedImg, int x, int y) const;
+	void drawTile(Graphics^ g, Bitmap^ notClickedImg, Bitmap^ img, Bitmap^ flagImg, Bitmap^ mineImg, Bitmap^ mineClickedImg, Bitmap^ flaggedWrongMineImg, int x, int y) const;
 	void setRevealed(bool hasBeenRevealed);
 	void setMineClicked(bool mineClicked);
 	void ResetTile();
