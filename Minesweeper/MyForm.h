@@ -140,7 +140,7 @@ namespace Minesweeper {
 
 		void PlaceMines(Tile *clickedTile){
 			while (numBombs < TOTAL_BOMBS){
-				for (int i = 0; i < FIELD_WIDTH; i++){
+				/*for (int i = 0; i < FIELD_WIDTH; i++){
 					for (int j = 0; j < FIELD_HEIGHT; j++){
 						Tile *currentTile = &tiles[(i * FIELD_WIDTH) + j];
 						if (rand() % 10 == 0 && numBombs < TOTAL_BOMBS && !currentTile->getMine()){
@@ -152,6 +152,11 @@ namespace Minesweeper {
 							//		}
 						}
 					}
+				}*/
+				int tileIndex = rand() % (FIELD_WIDTH * FIELD_HEIGHT);
+				if (!tiles[tileIndex].getMine()){
+					tiles[tileIndex].setMine(true);
+					numBombs++;
 				}
 				if (clickedTile->getMine()){
 					clickedTile->setMine(false);
