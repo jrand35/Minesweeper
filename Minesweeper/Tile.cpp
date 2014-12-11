@@ -115,6 +115,50 @@ bool Tile::isSurrounded() const{
 	return (getAdjacentMines() == getAdjacentTiles());
 }
 
+bool Tile::isAdjacentToTile(const Tile *tile) const{
+	if (leftTile != nullptr){
+		if (leftTile == tile){
+			return true;
+		}
+	}
+	if (rightTile != nullptr){
+		if (rightTile == tile){
+			return true;
+		}
+	}
+	if (aboveTile != nullptr){
+		if (aboveTile == tile){
+			return true;
+		}
+	}
+	if (belowTile != nullptr){
+		if (belowTile == tile){
+			return true;
+		}
+	}
+	if (aboveLeftTile != nullptr){
+		if (aboveLeftTile == tile){
+			return true;
+		}
+	}
+	if (aboveRightTile != nullptr){
+		if (aboveRightTile == tile){
+			return true;
+		}
+	}
+	if (belowLeftTile != nullptr){
+		if (belowLeftTile == tile){
+			return true;
+		}
+	}
+	if (belowRightTile != nullptr){
+		if (belowRightTile == tile){
+			return true;
+		}
+	}
+	return false;
+}
+
 bool Tile::getRevealed() const{
 	return hasBeenRevealed;
 }

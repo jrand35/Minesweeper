@@ -29,6 +29,7 @@ public:
 	bool getMine() const;
 	bool getFlag() const;
 	bool isSurrounded() const;
+	bool isAdjacentToTile(const Tile *tile) const;
 	bool getRevealed() const;
 	int getAdjacentTiles() const;
 	int getAdjacentMines() const;
