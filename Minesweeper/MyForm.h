@@ -21,7 +21,7 @@ namespace Minesweeper {
 	const int FIELD_WIDTH = 25;
 	const int FIELD_HEIGHT = 25;
 	const int SPACE = 2;
-	const int TOTAL_BOMBS = 120;
+	const int TOTAL_BOMBS = 12;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -135,6 +135,7 @@ namespace Minesweeper {
 		void RemoveMine(Tile *clickedTile){
 			if (clickedTile != nullptr){
 				clickedTile->setMine(false);
+				numBombs--;
 			}
 		}
 
@@ -160,6 +161,7 @@ namespace Minesweeper {
 				}
 				if (clickedTile->getMine()){
 					clickedTile->setMine(false);
+					numBombs--;
 				}
 				if (clickedTile->getAdjacentMines() != 0){
 					RemoveMine(clickedTile->aboveLeftTile);
@@ -274,9 +276,10 @@ namespace Minesweeper {
 
 		//Reveal a tile when another tile is clicked if certain conditions are met
 		void Iteration(Tile *tile){
-			if (tile != NULL){
+			if (tile != nullptr){
 				if (!tile->getMine() && !tile->getFlag() && !tile->getRevealed()){
 					tile->setRevealed(true);
+					unclickedSpaces--;
 					if (tile->getAdjacentMines() == 0){
 						RevealTiles(tile);
 					}
@@ -306,6 +309,7 @@ namespace Minesweeper {
 					tiles[i].setRevealed(true);
 				}
 			}
+			unclickedSpaces = 0;
 		}
 		
 		//Draw the reset button
@@ -320,7 +324,7 @@ namespace Minesweeper {
 
 		//Show Dialog box
 		void ShowDialogBox(){
-			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "Play again?", "Minesweeper", MessageBoxButtons::YesNoCancel);
+			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "You won! Play again?", "Minesweeper", MessageBoxButtons::YesNoCancel);
 			if (result == System::Windows::Forms::DialogResult::Yes){
 				ResetField();
 			}
@@ -430,6 +434,7 @@ namespace Minesweeper {
 									 firstClick = false;
 								 }
 								 clickedTile->setRevealed(true);
+								 unclickedSpaces--;
 								 //Reveal adjacent empty tiles ONLY if clicked tile has no surrounding mines
 								 if (clickedTile->getAdjacentMines() == 0){
 									 RevealTiles(clickedTile);
@@ -437,11 +442,17 @@ namespace Minesweeper {
 							 }
 							 else{
 								 clickedTile->setMineClicked(true);
-								 RevealMines();
 								 gameOver = true;
+								 RevealMines();
 							 }
 							 panel1->Refresh();
 						 }
+					 }
+					 //The game is won
+					 if (unclickedSpaces == 0 && !gameOver){
+						 gameOver = true;
+						 ShowDialogBox();
+						 panel1->Refresh();
 					 }
 				 }
 				 else if (e->Button == System::Windows::Forms::MouseButtons::Right){
@@ -464,6 +475,7 @@ namespace Minesweeper {
 					 }
 				 }
 	}
+			 //Can happen outside panel
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 mouseDown = false;
 	//		 if (myResetButton->getClicked()){
@@ -473,7 +485,8 @@ private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::F
 			 if (myResetButton->getToggled() || myResetButton->getClicked()){
 				 myResetButton->setClicked(false);
 				 myResetButton->setToggled(false);
-				 ShowDialogBox();
+			//	 ShowDialogBox();
+				 ResetField();
 				 panel1->Refresh();
 			 }
 }

@@ -14,14 +14,14 @@ Tile::Tile(){
 	Tile::x = 0;
 	Tile::y = 0;
 
-	leftTile = NULL;
-	rightTile = NULL;
-	aboveTile = NULL;
-	belowTile = NULL;
-	aboveLeftTile = NULL;
-	aboveRightTile = NULL;
-	belowLeftTile = NULL;
-	belowRightTile = NULL;
+	leftTile = nullptr;
+	rightTile = nullptr;
+	aboveTile = nullptr;
+	belowTile = nullptr;
+	aboveLeftTile = nullptr;
+	aboveRightTile = nullptr;
+	belowLeftTile = nullptr;
+	belowRightTile = nullptr;
 }
 
 //Constructor sets hasBomb, x, y
@@ -34,14 +34,14 @@ Tile::Tile(bool hasMine, int x, int y){
 	Tile::x = x;
 	Tile::y = y;
 
-	leftTile = NULL;
-	rightTile = NULL;
-	aboveTile = NULL;
-	belowTile = NULL;
-	aboveLeftTile = NULL;
-	aboveRightTile = NULL;
-	belowLeftTile = NULL;
-	belowRightTile = NULL;
+	leftTile = nullptr;
+	rightTile = nullptr;
+	aboveTile = nullptr;
+	belowTile = nullptr;
+	aboveLeftTile = nullptr;
+	aboveRightTile = nullptr;
+	belowLeftTile = nullptr;
+	belowRightTile = nullptr;
 }
 
 void Tile::setMine(bool hasMine){
@@ -122,21 +122,21 @@ bool Tile::getRevealed() const{
 int Tile::getAdjacentTiles() const{
 	int numTiles = 0;
 
-	if (leftTile != NULL)
+	if (leftTile != nullptr)
 		numTiles++;
-	if (rightTile != NULL)
+	if (rightTile != nullptr)
 		numTiles++;
-	if (aboveTile != NULL)
+	if (aboveTile != nullptr)
 		numTiles++;
-	if (belowTile != NULL)
+	if (belowTile != nullptr)
 		numTiles++;
-	if (aboveLeftTile != NULL)
+	if (aboveLeftTile != nullptr)
 		numTiles++;
-	if (aboveRightTile != NULL)
+	if (aboveRightTile != nullptr)
 		numTiles++;
-	if (belowLeftTile != NULL)
+	if (belowLeftTile != nullptr)
 		numTiles++;
-	if (belowRightTile != NULL)
+	if (belowRightTile != nullptr)
 		numTiles++;
 
 	return numTiles;
@@ -144,49 +144,49 @@ int Tile::getAdjacentTiles() const{
 
 int Tile::getAdjacentMines() const{
 	int numBombs = 0;
-	if (aboveLeftTile != NULL){	//Top-left of base
+	if (aboveLeftTile != nullptr){	//Top-left of base
 		if (aboveLeftTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (aboveTile != NULL){	//Top of base
+	if (aboveTile != nullptr){	//Top of base
 		if (aboveTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (aboveRightTile != NULL){	//Top-right of base
+	if (aboveRightTile != nullptr){	//Top-right of base
 		if (aboveRightTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (leftTile != NULL){	//Left of base
+	if (leftTile != nullptr){	//Left of base
 		if (leftTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (rightTile != NULL){	//Right of base
+	if (rightTile != nullptr){	//Right of base
 		if (rightTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (belowLeftTile != NULL){	//Bottom-left of base
+	if (belowLeftTile != nullptr){	//Bottom-left of base
 		if (belowLeftTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (belowTile != NULL){	//Bottom of base
+	if (belowTile != nullptr){	//Bottom of base
 		if (belowTile->getMine()){
 			numBombs++;
 		}
 	}
 
-	if (belowRightTile != NULL){	//Bottom-right of base
+	if (belowRightTile != nullptr){	//Bottom-right of base
 		if (belowRightTile->getMine()){
 			numBombs++;
 		}
