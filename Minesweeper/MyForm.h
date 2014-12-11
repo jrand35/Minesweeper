@@ -21,7 +21,7 @@ namespace Minesweeper {
 	const int FIELD_WIDTH = 25;
 	const int FIELD_HEIGHT = 25;
 	const int SPACE = 2;
-	const int TOTAL_BOMBS = 120;
+	const int TOTAL_BOMBS = 120;	//Game has a chance of freezing if over 400
 
 	/// <summary>
 	/// Summary for MyForm
@@ -40,6 +40,7 @@ namespace Minesweeper {
 		int startX;
 		int tileArrayHeight;
 		bool mouseDown;
+		bool clickedOnTile;
 		bool firstClick;
 		bool gameOver;
 
@@ -133,7 +134,7 @@ namespace Minesweeper {
 		}
 
 		void RemoveMine(Tile *clickedTile){
-			if (clickedTile != nullptr){
+			if (clickedTile != nullptr && clickedTile->getMine()){
 				clickedTile->setMine(false);
 				numBombs--;
 			}
@@ -155,7 +156,7 @@ namespace Minesweeper {
 					}
 				}*/
 				int tileIndex = rand() % (FIELD_WIDTH * FIELD_HEIGHT);
-				if (!tiles[tileIndex].getMine()){
+				if (!tiles[tileIndex].getMine() && (&tiles[tileIndex] != clickedTile) && (!tiles[tileIndex].isAdjacentToTile(clickedTile))){
 					tiles[tileIndex].setMine(true);
 					numBombs++;
 				}
@@ -173,6 +174,7 @@ namespace Minesweeper {
 					RemoveMine(clickedTile->belowTile);
 					RemoveMine(clickedTile->belowRightTile);
 				}
+				assert(numBombs <= TOTAL_BOMBS);
 			}
 		}
 
@@ -322,6 +324,39 @@ namespace Minesweeper {
 			}
 		}
 
+		void ClickTile(int mouseX, int mouseY){
+			if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
+				int tileIndex = TileIndex(mouseX, mouseY);
+				Tile *clickedTile = tiles + tileIndex;
+				if (!clickedTile->getRevealed() && !clickedTile->getFlag()){
+					if (!clickedTile->getMine()){
+						if (firstClick){
+							PlaceMines(clickedTile);
+							firstClick = false;
+						}
+						clickedTile->setRevealed(true);
+						unclickedSpaces--;
+						//Reveal adjacent empty tiles ONLY if clicked tile has no surrounding mines
+						if (clickedTile->getAdjacentMines() == 0){
+							RevealTiles(clickedTile);
+						}
+					}
+					else{
+						clickedTile->setMineClicked(true);
+						gameOver = true;
+						RevealMines();
+					}
+					panel1->Refresh();
+				}
+			}
+			//The game is won
+			if (unclickedSpaces == 0 && !gameOver){
+				gameOver = true;
+				ShowDialogBox();
+				panel1->Refresh();
+			}
+		}
+
 		//Show Dialog box
 		void ShowDialogBox(){
 			System::Windows::Forms::DialogResult result = MessageBox::Show(this, "You won! Play again?", "Minesweeper", MessageBoxButtons::YesNoCancel);
@@ -388,6 +423,7 @@ namespace Minesweeper {
 				 view = gcnew Bitmap(panelWidth, panelHeight, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
 				 gbmp = Graphics::FromImage(view);
 				 mouseDown = false;
+				 clickedOnTile = false;
 				 firstClick = true;
 				 gameOver = false;
 				 CreateTiles();
@@ -406,6 +442,7 @@ namespace Minesweeper {
 				 System::Drawing::StringFormat ^drawFormat = gcnew System::Drawing::StringFormat();
 				 g->DrawString("Mines remaining: " + remainingMines.ToString(), drawFont, drawBrush, 30, panelHeight - 20, drawFormat);
 				 g->DrawString("Flags: " + numFlags.ToString(), drawFont, drawBrush, panelWidth - 170, panelHeight - 20, drawFormat);
+			//	 g->DrawString(numBombs.ToString(), drawFont, drawBrush, panelWidth - 80, panelHeight - 20, drawFormat);
 				 g->DrawImage(view, Point(0, 0));
 	}
 	private: System::Void panel1_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
@@ -422,40 +459,13 @@ namespace Minesweeper {
 					 }
 				 }
 
-				 //Click Tiles
-				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
-					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
-						 int tileIndex = TileIndex(mouseX, mouseY);
-						 Tile *clickedTile = tiles + tileIndex;
-						 if (!clickedTile->getRevealed() && !clickedTile->getFlag()){
-							 if (!clickedTile->getMine()){
-								 if (firstClick){
-									 PlaceMines(clickedTile);
-									 firstClick = false;
-								 }
-								 clickedTile->setRevealed(true);
-								 unclickedSpaces--;
-								 //Reveal adjacent empty tiles ONLY if clicked tile has no surrounding mines
-								 if (clickedTile->getAdjacentMines() == 0){
-									 RevealTiles(clickedTile);
-								 }
-							 }
-							 else{
-								 clickedTile->setMineClicked(true);
-								 gameOver = true;
-								 RevealMines();
-							 }
-							 panel1->Refresh();
-						 }
-					 }
-					 //The game is won
-					 if (unclickedSpaces == 0 && !gameOver){
-						 gameOver = true;
-						 ShowDialogBox();
-						 panel1->Refresh();
-					 }
+				 //Click on a tile
+				 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
+					 clickedOnTile = true;
 				 }
-				 else if (e->Button == System::Windows::Forms::MouseButtons::Right){
+
+				 //Click to place a flag
+				 if (e->Button == System::Windows::Forms::MouseButtons::Right){
 					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
 						 int tileIndex = TileIndex(mouseX, mouseY);
 						 Tile *clickedTile = tiles + tileIndex;
@@ -478,6 +488,14 @@ namespace Minesweeper {
 			 //Can happen outside panel
 private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
 			 mouseDown = false;
+			 int mouseX = e->X;
+			 int mouseY = e->Y;
+			 if (e->Button == System::Windows::Forms::MouseButtons::Left){
+				 if (clickedOnTile){
+					 ClickTile(mouseX, mouseY);
+			//		 clickedOnTile = false;
+				 }
+			 }
 	//		 if (myResetButton->getClicked()){
 	//			 myResetButton->setClicked(false);
 	//			 panel1->Refresh();
@@ -491,6 +509,7 @@ private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::F
 			 }
 }
 private: System::Void panel1_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e) {
+			 assert(numBombs <= TOTAL_BOMBS);
 			 int mouseX = e->X;
 			 int mouseY = e->Y;
 			 if (mouseDown){
