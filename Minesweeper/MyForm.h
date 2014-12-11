@@ -460,8 +460,10 @@ namespace Minesweeper {
 				 }
 
 				 //Click on a tile
-				 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
-					 clickedOnTile = true;
+				 if (e->Button == System::Windows::Forms::MouseButtons::Left){
+					 if (!gameOver && mouseX >= spaceLeft && mouseY >= 0 && mouseX <= panelWidth - spaceRight && mouseY <= tileArrayHeight){
+						 clickedOnTile = true;
+					 }
 				 }
 
 				 //Click to place a flag
@@ -493,13 +495,13 @@ private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::F
 			 if (e->Button == System::Windows::Forms::MouseButtons::Left){
 				 if (clickedOnTile){
 					 ClickTile(mouseX, mouseY);
-			//		 clickedOnTile = false;
 				 }
 			 }
 	//		 if (myResetButton->getClicked()){
 	//			 myResetButton->setClicked(false);
 	//			 panel1->Refresh();
 	//		 }
+			 clickedOnTile = false;
 			 if (myResetButton->getToggled() || myResetButton->getClicked()){
 				 myResetButton->setClicked(false);
 				 myResetButton->setToggled(false);
