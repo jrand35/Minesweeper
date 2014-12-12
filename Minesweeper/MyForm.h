@@ -21,7 +21,7 @@ namespace Minesweeper {
 	const int FIELD_WIDTH = 25;
 	const int FIELD_HEIGHT = 25;
 	const int SPACE = 2;
-	const int TOTAL_BOMBS = 120;	//Game has a chance of freezing if over 400
+	const int TOTAL_BOMBS = 120;	//Should be less than FIELD_WIDTH * FIELD_HEIGHT - 9
 
 	/// <summary>
 	/// Summary for MyForm
@@ -503,10 +503,12 @@ private: System::Void panel1_MouseUp(System::Object^  sender, System::Windows::F
 	//		 }
 			 clickedOnTile = false;
 			 if (myResetButton->getToggled() || myResetButton->getClicked()){
+				 if (myResetButton->getToggled() && myResetButton->getClicked()){
+					 ResetField();
+				 }
 				 myResetButton->setClicked(false);
 				 myResetButton->setToggled(false);
 			//	 ShowDialogBox();
-				 ResetField();
 				 panel1->Refresh();
 			 }
 }
