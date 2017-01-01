@@ -1,12 +1,12 @@
 # Minesweeper
 Programming Portfolio
 
-- Huffman Coding Tree
-- C++ Console Application
+- Minesweeper
+- C++ Windows Form Application
 - Built in Microsoft Visual Studio
 - Run the program by importing the project in Visual Studio and then building it
 - Detailed Report in Huffman Coding Tree folder
-- Data Structures II (CS218) Programming Assignment
+- Intro to Software Engineering (CS114) Group Project
 - Written on 3/3/2015 by Joshua Rand
 
 - Code files in directory:
