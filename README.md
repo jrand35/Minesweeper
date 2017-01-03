@@ -9,7 +9,7 @@ Programming Portfolio
 - Intro to Software Engineering (CS114) Group Project
 - Written on 12/12/2014 by Joshua Rand
 
-- Code files in directory:
+Code files in directory:
 - Minesweeper\Minesweeper\Minesweeper.cpp - Runs the program
 - Minesweeper\Minesweeper\MyForm.h - Definition for Windows Form, controls the game
 - Minesweeper\Minesweeper\ResetButton.h - Declaration file for ResetButton class - Button on the form that resets the game
